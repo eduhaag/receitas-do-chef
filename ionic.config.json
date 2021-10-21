@@ -1,0 +1,10 @@
+{
+  "name": "receitas-do-chef",
+  "integrations": {
+    "capacitor": {
+      "enabled": false
+    },
+    "cordova": {}
+  },
+  "type": "angular"
+}

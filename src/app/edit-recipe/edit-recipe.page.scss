@@ -1,0 +1,52 @@
+.header{
+  width: 100%;
+  min-height: 130px;
+  background-size:cover;
+  background-position: center center;
+}
+
+.foto{
+  width: 100%;
+  min-height: 130px;
+  display: flex;
+  justify-content: center;
+
+
+}
+
+.foto .add-foto{
+  margin-top: 20px;
+  width: 80px;
+  height: 80px;
+  background-color: #00000060;
+  border-radius: 50%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+ion-input{
+  border-bottom: 1px solid #00000062;
+}
+
+ion-select{
+  width: 100%;
+  border-bottom: 1px solid #00000062;
+}
+
+ion-row.head{
+  font-weight: bold;
+}
+
+.ingredientes, .preparo{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+ion-button ion-icon{
+  margin-right: 5px;
+}
+

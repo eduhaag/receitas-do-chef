@@ -1,0 +1,58 @@
+.fundo-header{
+  display: flex;
+  flex-direction: column;
+  background-size:cover;
+  background-position: center center;
+  height:8rem;
+}
+
+.subtitulo{
+  margin-right: 1.4rem;
+}
+
+
+.list{
+  background-color: transparent !important;
+  padding: 0;
+}
+
+.card{
+  display: flex;
+  flex-direction: row;
+  height: 109px;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  border-radius: 20px;
+}
+
+.imagem{
+  width: 41%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card-content{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.details{
+  display: flex;
+  flex-direction: row;
+}
+
+.details p{
+  margin: 5px;
+}
+
+.ion-text-center span{
+  margin-right: 5px;
+}
+
+ion-card-content{
+  padding: 0;
+}
+
+ion-title{
+  padding: 0;
+}

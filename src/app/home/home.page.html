@@ -1,0 +1,28 @@
+<ion-header >
+  <ion-toolbar color="primary">
+    <div class="flex-center">
+      <img src="../../../assets/images/receitas_do_chef_small.png" alt="logo receitas do chef">
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="secondary">
+  <ion-list class="list">
+    <ion-card class="card" (click)="acessarCategoria()">
+      <div style="
+        background-image:url(/assets/categorias/bolos_e_tortas.png);
+        background-size:cover;
+        background-position: center center;"
+      >
+        <ion-card-header>
+          <ion-card-title class="titulo" color="light">Bolos e tortas</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-card-subtitle class="text-shadow subtitulo" color="light">
+            {{qtdeReceitas(1)}}
+          </ion-card-subtitle>
+        </ion-card-content>
+      </div>
+    </ion-card>
+  </ion-list>
+</ion-content>

@@ -1,0 +1,38 @@
+<ion-header>
+  <div class="fundo-header"style="
+  background-image:url({{imagem}});"
+  >
+    <ion-icon color="light" size="large" name="chevron-back-outline" (click)="voltar()"></ion-icon>
+    <ion-title class="titulo ion-text-center" style="font-size: 2rem;"color="light">{{nome}}</ion-title>
+    <div class="ion-text-end">
+      <ion-text class="subtitulo" color="light">{{qtdeReceitas(1)}}</ion-text>
+    </div>
+  </div>
+</ion-header>
+
+<ion-content color="secondary">
+  <ion-card class="card" (click)="selecionaReceita()">
+    <img class="imagem" src="/assets/categorias/bolos_e_tortas.png">
+    <ion-card-content>
+      <ion-title class="ion-text-center"color="primary">
+        <div class="ion-text-wrap">
+          Bolo de maça de liquidificador
+        </div>
+      </ion-title>
+      <div>
+        <div class="details ion-justify-content-center">
+          <p><ion-icon name="hourglass-outline"></ion-icon>45 min</p>
+          <p><ion-icon name="restaurant-outline"></ion-icon> 10 porções</p>
+        </div>
+        <div class="ion-text-center ">
+          <span>Dificultdade:</span><ion-text [ngStyle]="{'color':(selecionaCorDificuldade('Fácil'))}">Fácil</ion-text>
+        </div>
+      </div>
+    </ion-card-content>
+  </ion-card>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button color="primary" (click)="adicionarReceita()">
+      <ion-icon name="add-outline" size="large"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

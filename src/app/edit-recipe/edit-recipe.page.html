@@ -1,0 +1,153 @@
+<ion-content color="secondary">
+  <div class="header" style="background-image:url(/assets/categorias/bolos_e_tortas.png)">
+    <ion-icon color="light" size="large" name="chevron-back-outline" (click)="voltar()"></ion-icon>
+    <div class="foto">
+      <div class="add-foto">
+        <ion-icon name="camera-outline" size="large" ></ion-icon>
+      </div>
+    </div>
+  </div>
+
+  <ion-card>
+    <ion-card-title class="ion-text-center">Informações</ion-card-title>
+    <ion-item lines="none">
+      <ion-input placeholder="Nome do prato" autocapitalize required></ion-input>
+    </ion-item>
+    <ion-item lines="none">
+      <ion-label>Tempo de preparo: </ion-label>
+      <ion-input class="ion-text-center"  type="number"></ion-input>
+      <ion-label>minutos</ion-label>
+    </ion-item>
+    <ion-item lines="none">
+      <ion-label>Rendimento: </ion-label>
+      <ion-input class="ion-text-center" type="number"></ion-input>
+      <ion-label>porções</ion-label>
+    </ion-item>
+    <ion-item lines="none">
+      <ion-label>Dificuldade:</ion-label>
+      <ion-select placeholder="Selecione..." interface="popover">
+        <ion-select-option value="Fácil">Fácil</ion-select-option>
+        <ion-select-option value="Médio">Médio</ion-select-option>
+        <ion-select-option value="Dificil">Médio</ion-select-option>
+      </ion-select>
+    </ion-item>
+  </ion-card>
+
+  <ion-card class="ingredientes">
+    <ion-card-title class="ion-text-center">Ingredientes</ion-card-title>
+    <ion-grid>
+      <ion-row class="head">
+        <ion-col size="1.5" class="ion-text-center">
+          Qtd.
+        </ion-col>
+        <ion-col size="3" class="ion-text-center">
+          unidade
+        </ion-col>
+        <ion-col size="6.5">
+          Ingredientes
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="1.5" class="ion-text-center">
+          5
+        </ion-col>
+        <ion-col size="3" class="ion-text-center">
+          xícaras
+        </ion-col>
+        <ion-col size="6.5">
+          farinha de trigo
+        </ion-col>
+        <ion-col size="1" class="ion-text-center">
+          <ion-icon name="close-outline"></ion-icon>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="1.5" class="ion-text-center">
+          1
+        </ion-col>
+        <ion-col size="3" class="ion-text-center">
+          cl. chá
+        </ion-col>
+        <ion-col size="6.5">
+          fermento quimico
+        </ion-col>
+        <ion-col size="1" class="ion-text-center">
+          <ion-icon name="close-outline"></ion-icon>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="2" class="ion-text-center">
+          <ion-input type=number placeholder="qtd"></ion-input>
+        </ion-col>
+        <ion-col size="3.5" class="ion-text-center">
+          <ion-select placeholder="unidade">
+            <ion-select-option value="xícara">xícara</ion-select-option>
+            <ion-select-option value="cl. chá">cl. chá</ion-select-option>
+            <ion-select-option value="cl. café">cl. café</ion-select-option>
+            <ion-select-option value="cl. sopa">cl. sopa</ion-select-option>
+            <ion-select-option value="copo">copo</ion-select-option>
+            <ion-select-option value="gramas">grama</ion-select-option>
+            <ion-select-option value="kg.">Kilos</ion-select-option>
+            <ion-select-option value="un.">unidade</ion-select-option>
+          </ion-select>
+        </ion-col>
+        <ion-col size="6.5">
+          <ion-input type="text" placeholder="ingrediente"></ion-input>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <ion-icon name="add-outline" size="large"></ion-icon>
+  </ion-card>
+
+  <ion-card class="preparo">
+    <ion-card-title class="ion-text-center">Modo de preparo</ion-card-title>
+    <ion-grid>
+      <ion-row class="head">
+        <ion-col size="2" class="ion-text-center">
+          Passo
+        </ion-col>
+        <ion-col size="9">
+          Processo
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="2" class="ion-text-center">
+          1
+        </ion-col>
+        <ion-col size="9">
+          Misture todos os ingredientes secos;
+        </ion-col>
+        <ion-col size="1" class="ion-text-center">
+          <ion-icon name="close-outline"></ion-icon>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="2" class="ion-text-center">
+          2
+        </ion-col>
+        <ion-col size="9">
+          Misture todos os ingredientes molhados;
+        </ion-col>
+        <ion-col size="1" class="ion-text-center">
+          <ion-icon name="close-outline"></ion-icon>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col >
+          <ion-input type="text" placeholder="Descreva o passo"></ion-input>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <ion-icon name="add-outline" size="large"></ion-icon>
+  </ion-card>
+  <ion-button color="primary" expand="full" shape="round">
+    <ion-icon name="save-outline"></ion-icon>
+     Salvar receita
+  </ion-button>
+
+</ion-content>

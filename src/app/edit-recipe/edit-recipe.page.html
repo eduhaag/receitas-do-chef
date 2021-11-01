@@ -1,5 +1,5 @@
 <ion-content color="secondary">
-  <div class="header" style="background-image:url(/assets/categorias/bolos_e_tortas.png)">
+  <div class="header" style="background-image:url({{receita.img}})">
     <ion-icon color="light" size="large" name="chevron-back-outline" (click)="voltar()"></ion-icon>
     <div class="foto">
       <div class="add-foto">
@@ -11,21 +11,21 @@
   <ion-card>
     <ion-card-title class="ion-text-center">Informações</ion-card-title>
     <ion-item lines="none">
-      <ion-input placeholder="Nome do prato" autocapitalize required></ion-input>
+      <ion-input placeholder="Nome do prato" [(ngModel)]="receita.nome" required></ion-input>
     </ion-item>
     <ion-item lines="none">
       <ion-label>Tempo de preparo: </ion-label>
-      <ion-input class="ion-text-center"  type="number"></ion-input>
+      <ion-input class="ion-text-center" [(ngModel)]="receita.minutos" type="number"></ion-input>
       <ion-label>minutos</ion-label>
     </ion-item>
     <ion-item lines="none">
       <ion-label>Rendimento: </ion-label>
-      <ion-input class="ion-text-center" type="number"></ion-input>
+      <ion-input class="ion-text-center" [(ngModel)]="receita.porcoes" type="number"></ion-input>
       <ion-label>porções</ion-label>
     </ion-item>
     <ion-item lines="none">
       <ion-label>Dificuldade:</ion-label>
-      <ion-select placeholder="Selecione..." interface="popover">
+      <ion-select placeholder="Selecione..." interface="popover" [(ngModel)]="receita.dificuldade">
         <ion-select-option value="Fácil">Fácil</ion-select-option>
         <ion-select-option value="Médio">Médio</ion-select-option>
         <ion-select-option value="Dificil">Médio</ion-select-option>
@@ -36,6 +36,7 @@
   <ion-card class="ingredientes">
     <ion-card-title class="ion-text-center">Ingredientes</ion-card-title>
     <ion-grid>
+      <!--
       <ion-row class="head">
         <ion-col size="1.5" class="ion-text-center">
           Qtd.
@@ -46,41 +47,27 @@
         <ion-col size="6.5">
           Ingredientes
         </ion-col>
-      </ion-row>
-      <ion-row>
+      </ion-row>-->
+      <ion-row *ngFor="let ingredienteItem of listaIngredientes">
         <ion-col size="1.5" class="ion-text-center">
-          5
+          {{ingredienteItem.quantidade}}
         </ion-col>
         <ion-col size="3" class="ion-text-center">
-          xícaras
+          {{ingredienteItem.unidade}}
         </ion-col>
         <ion-col size="6.5">
-          farinha de trigo
+          {{ingredienteItem.nome}}
         </ion-col>
         <ion-col size="1" class="ion-text-center">
-          <ion-icon name="close-outline"></ion-icon>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col size="1.5" class="ion-text-center">
-          1
-        </ion-col>
-        <ion-col size="3" class="ion-text-center">
-          cl. chá
-        </ion-col>
-        <ion-col size="6.5">
-          fermento quimico
-        </ion-col>
-        <ion-col size="1" class="ion-text-center">
-          <ion-icon name="close-outline"></ion-icon>
+          <ion-icon name="close-outline" (click)="removeIngrediente(ingredienteItem.nome)"></ion-icon>
         </ion-col>
       </ion-row>
       <ion-row>
         <ion-col size="2" class="ion-text-center">
-          <ion-input type=number placeholder="qtd"></ion-input>
+          <ion-input type=number [(ngModel)]="ingrediente.quantidade" placeholder="qtd" class='input'></ion-input>
         </ion-col>
         <ion-col size="3.5" class="ion-text-center">
-          <ion-select placeholder="unidade">
+          <ion-select placeholder="unidade" [(ngModel)]="ingrediente.unidade" interface="popover">
             <ion-select-option value="xícara">xícara</ion-select-option>
             <ion-select-option value="cl. chá">cl. chá</ion-select-option>
             <ion-select-option value="cl. café">cl. café</ion-select-option>
@@ -92,17 +79,17 @@
           </ion-select>
         </ion-col>
         <ion-col size="6.5">
-          <ion-input type="text" placeholder="ingrediente"></ion-input>
+          <ion-input type="text" [(ngModel)]="ingrediente.nome" placeholder="ingrediente"></ion-input>
         </ion-col>
       </ion-row>
     </ion-grid>
-
-    <ion-icon name="add-outline" size="large"></ion-icon>
+    <ion-icon name="add-outline" size="large" (click)="adicionarIngrediente()"></ion-icon>
   </ion-card>
 
   <ion-card class="preparo">
     <ion-card-title class="ion-text-center">Modo de preparo</ion-card-title>
     <ion-grid>
+      <!--
       <ion-row class="head">
         <ion-col size="2" class="ion-text-center">
           Passo
@@ -110,40 +97,26 @@
         <ion-col size="9">
           Processo
         </ion-col>
-      </ion-row>
+      </ion-row>-->
 
-      <ion-row>
+      <ion-row *ngFor="let passo of listaPreparo; let i = index">
         <ion-col size="2" class="ion-text-center">
-          1
+          {{i+1}}
         </ion-col>
         <ion-col size="9">
-          Misture todos os ingredientes secos;
+          {{passo}}
         </ion-col>
         <ion-col size="1" class="ion-text-center">
-          <ion-icon name="close-outline"></ion-icon>
+          <ion-icon name="close-outline" (click)="removePreparo(passo)"></ion-icon>
         </ion-col>
       </ion-row>
-
-      <ion-row>
-        <ion-col size="2" class="ion-text-center">
-          2
-        </ion-col>
-        <ion-col size="9">
-          Misture todos os ingredientes molhados;
-        </ion-col>
-        <ion-col size="1" class="ion-text-center">
-          <ion-icon name="close-outline"></ion-icon>
-        </ion-col>
-      </ion-row>
-
       <ion-row>
         <ion-col >
-          <ion-input type="text" placeholder="Descreva o passo"></ion-input>
+          <ion-input type="text" placeholder="Descreva o passo" size="50" [(ngModel)]="preparo"></ion-input>
         </ion-col>
       </ion-row>
     </ion-grid>
-
-    <ion-icon name="add-outline" size="large"></ion-icon>
+    <ion-icon name="add-outline" size="large" (click)="adicionaPreparo()"></ion-icon>
   </ion-card>
   <ion-button color="primary" expand="full" shape="round">
     <ion-icon name="save-outline"></ion-icon>

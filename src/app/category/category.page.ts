@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {Location} from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute} from '@angular/router';
+
+import {Categoria, Receita, DatabaseService} from '../services/database.service';
 
 
 @Component({
@@ -10,16 +12,29 @@ import { Router } from '@angular/router';
 })
 
 export class CategoryPage implements OnInit {
-  nome='Bolos e tortas';
-  imagem='/assets/categorias/bolos_e_tortas.png';
-  receitas: [];
+  receitas: Receita []=[];
+  categoria: Categoria;
 
   constructor(
     private location: Location,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute,
+    private db: DatabaseService
   ) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.route.queryParamMap.subscribe(params=>{
+      const getNav= this.router.getCurrentNavigation();
+      if(getNav.extras.state.categoria){
+        this.categoria=getNav.extras.state.categoria;
+        this.loadReceitas();
+      }
+    });
+  }
+
+  async loadReceitas(){
+    this.receitas =  await this.db.getReceitasByCategoriaID(this.categoria.id);
+  }
 
   voltar(){
     this.location.back();
@@ -42,7 +57,7 @@ export class CategoryPage implements OnInit {
       case 'Difícil':
         return '#EE5248';
     }
-  }
+  };
 
   qtdeReceitas(qtde: number){
     switch(qtde){

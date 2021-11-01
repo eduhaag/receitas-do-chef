@@ -3,6 +3,7 @@
   min-height: 130px;
   background-size:cover;
   background-position: center center;
+  background-color: #E2D3D3;
 }
 
 .foto{
@@ -10,8 +11,6 @@
   min-height: 130px;
   display: flex;
   justify-content: center;
-
-
 }
 
 .foto .add-foto{
@@ -28,6 +27,7 @@
 
 ion-input{
   border-bottom: 1px solid #00000062;
+  margin-top: 3px;
 }
 
 ion-select{

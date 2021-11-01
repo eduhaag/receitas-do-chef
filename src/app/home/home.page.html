@@ -7,19 +7,19 @@
 </ion-header>
 
 <ion-content color="secondary">
-  <ion-list class="list">
-    <ion-card class="card" (click)="acessarCategoria()">
+  <ion-list class="list" >
+    <ion-card class="card" *ngFor="let categoria of categorias" (click)="acessarCategoria(categoria)">
       <div style="
-        background-image:url(/assets/categorias/bolos_e_tortas.png);
+        background-image:url({{categoria.img}});
         background-size:cover;
         background-position: center center;"
       >
         <ion-card-header>
-          <ion-card-title class="titulo" color="light">Bolos e tortas</ion-card-title>
+          <ion-card-title class="titulo" color="light">{{categoria.nome}}</ion-card-title>
         </ion-card-header>
         <ion-card-content>
           <ion-card-subtitle class="text-shadow subtitulo" color="light">
-            {{qtdeReceitas(1)}}
+            {{qtdeReceitas(categoria.qtdReceitas)}}
           </ion-card-subtitle>
         </ion-card-content>
       </div>

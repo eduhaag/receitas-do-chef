@@ -56,3 +56,11 @@ ion-card-content{
 ion-title{
   padding: 0;
 }
+
+.receita-card{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items:center;
+}

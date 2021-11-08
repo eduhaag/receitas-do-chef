@@ -1,6 +1,7 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Ingrediente, Receita } from '../services/database.service';
 
 @Component({
   selector: 'app-recipe',
@@ -8,14 +9,22 @@ import { Router } from '@angular/router';
   styleUrls: ['./recipe.page.scss'],
 })
 export class RecipePage implements OnInit {
-  receita={};
+  receita: Receita;
 
   constructor(
     private location: Location,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute,
   ) { }
 
   ngOnInit() {
+    this.route.queryParamMap.subscribe(params=>{
+      const getNav= this.router.getCurrentNavigation();
+      if(getNav.extras.state.receita){
+        this.receita=getNav.extras.state.receita;
+      }
+      console.log(this.receita.ingredientes);
+    });
   }
 
   selecionaCorDificuldade(dificuldade: string){
@@ -28,6 +37,15 @@ export class RecipePage implements OnInit {
         return '#FFB629';
       case 'Difícil':
         return '#EE5248';
+    }
+  }
+
+  handleImg(){
+    if (this.receita.img){
+      return this.receita.img;
+    }
+    else{
+      return '/assets/no_image_receita.png';
     }
   }
 

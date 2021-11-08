@@ -20,7 +20,13 @@ CREATE TABLE IF NOT EXISTS receitas (
 );
 
 INSERT or IGNORE INTO receitas (id, nome, img, minutos, porcoes, dificuldade, ingredientes, preparo, categoriaId)
-  VALUES (1, 'BOLO DE MAÇÃ DE LIQUIDIFICADOR', '/assets/receitas/bolo_maca.png', 40, 25, 'Fácil', 'ingredientes', 'preparooo', 1);
+  VALUES (
+    1, 'BOLO DE MAÇÃ DE LIQUIDIFICADOR', '/assets/receitas/bolo_maca.png', 40,
+    25, 'Fácil',
+    '[{"nome":"farinha de trigo","quantidade":2,"unidade":"xícara(s)"},{"nome":"açúcar","quantidade":2,"unidade":"xícara(s)"},{"nome":"fermento em pó","quantidade":1,"unidade":"cl. sopa"},{"nome":"canela em pó","quantidade":1,"unidade":"cl. sopa"},{"nome":"sal","quantidade":1,"unidade":"pitada(s)"},{"nome":"ovos","quantidade":3,"unidade":"unidade(s)"},{"nome":"maçãs grandes","quantidade":3,"unidade":"unidade(s)"},{"nome":"óleo vegetal","quantidade":1,"unidade":"xícara(s)"}]',
+    '["Unte e polvilhe com farinha um tabuleiro médio (23×35), ou uma fôrma de buraco no meio.","Em uma tigela grande, peneirar a farinha e o açúcar. Juntar os demais ingredientes secos. Reservar.","Descascar as maçãs, reservando as cascas. Picar em cubinhos.","Bater no liquidificador os ovos, o óleo e as cascas da maçã.","Juntar essa mistura na tigela com os ingredientes secos e misturar delicadamente.","Junte as maçãs picadas, misture e despeje na assadeira.","Asse por cerca de 40 a 50 minutos em forno médio.","Depois de pronto polvilhar açúcar e canela."]',
+    1
+  );
 
 CREATE TABLE IF NOT EXISTS receita_ingredientes (
   id INTEGER PRIMARY KEY AUTOINCREMENT,

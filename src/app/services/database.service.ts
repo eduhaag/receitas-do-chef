@@ -12,7 +12,8 @@ export interface Receita{
   minutos: number;
   porcoes: number;
   dificuldade: string;
-  preparo?: string;
+  preparo?: string[];
+  ingredientes?: Ingrediente[] ;
   categoriaID?: number;
 }
 
@@ -26,6 +27,11 @@ export interface Categoria{
   id: number;
   nome: string;
   img: string;
+  qtdReceitas: number;
+}
+
+interface ReceitaPageDTO{
+  receitas: Receita[];
   qtdReceitas: number;
 }
 
@@ -100,13 +106,14 @@ export class DatabaseService {
     this.categorias.next(categorias);
   };
 
-  getReceitasByCategoriaID(id: number): Receita[]{
+  async getReceitasByCategoriaID(id: number): Promise<ReceitaPageDTO>{
     const receitas: Receita[]=[];
 
-    this.database.executeSql(
-      `SELECT id, nome, img, minutos, porcoes, dificuldade FROM receitas WHERE categoriaId=${id}`,[]
-    ).then(data=>{
-      if(data.rows.length > 0){
+    const data = await this.database.executeSql(
+      `SELECT receitas.* FROM receitas WHERE categoriaId=${id}`,[]
+    );
+
+    if(data.rows.length > 0){
         for(let i=0; i<data.rows.length; i++){
           receitas.push({
             id: data.rows.item(i).id,
@@ -114,13 +121,35 @@ export class DatabaseService {
             img:data.rows.item(i).img,
             minutos: data.rows.item(i).minutos,
             dificuldade: data.rows.item(i).dificuldade,
-            porcoes:data.rows.item(i).porcoes
+            porcoes:data.rows.item(i).porcoes,
+            ingredientes:JSON.parse(data.rows.item(i).ingredientes),
+            preparo: JSON.parse(data.rows.item(i).preparo)
           });
         }
       }
-    }).catch(e=>console.log(e));
 
-    return receitas;
+    return {
+      qtdReceitas:receitas.length,
+      receitas
+    };
   }
 
+  salvarReceita({id, nome,dificuldade,img,minutos,preparo,porcoes,categoriaID,ingredientes}: Receita){
+    const dados = [
+      nome, dificuldade, img,
+      minutos, JSON.stringify(preparo),
+      porcoes, categoriaID, JSON.stringify(ingredientes)];
+
+    console.log({ingredientes, preparo});
+    let query;
+    if(id){
+      query=
+      `UPDATE receitas SET nome=?, dificuldade=?, img=?, minutos=?, preparo=?, porcoes=?, categoriaID=?, ingredientes=? WHERE id=${id}`;
+    }else{
+      query=
+      'INSERT INTO receitas (nome, dificuldade, img, minutos, preparo, porcoes, categoriaID, ingredientes) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
+    }
+
+    return this.database.executeSql(query,dados).then(_=>{this.loadCategorias();});
+  }
 }

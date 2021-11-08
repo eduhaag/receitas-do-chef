@@ -11,9 +11,9 @@
 </ion-header>
 
 <ion-content color="secondary">
-  <ion-card class="card" *ngFor="let receita of receitas" (click)="selecionaReceita()">
-    <img class="imagem" src="{{receita.img}}">
-    <ion-card-content>
+  <ion-card class="card" *ngFor="let receita of receitas" (click)="selecionaReceita(receita)">
+    <img class="imagem" [src]="receita.img" onError="src='/assets/no_image.png'">
+    <ion-card-content class="receita-card">
       <ion-title class="ion-text-center"color="primary">
         <div class="ion-text-wrap">
           {{receita.nome}}

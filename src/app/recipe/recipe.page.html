@@ -19,7 +19,7 @@
 
 <ion-header class="ion-justify-content-center">
   <ion-toolbar>
-    <div class="fundo-header"style="background-image:url(/assets/categorias/bolos_e_tortas.png)">
+    <div class="fundo-header"style="background-image:url({{handleImg()}})">
       <div class="buttons">
         <ion-icon color="light" size="large" name="chevron-back-outline" (click)="voltar()"></ion-icon>
         <ion-buttons slot="end">
@@ -30,13 +30,13 @@
       </div>
       <ion-title class="ion-text-center titulo" color="light">
         <div class="ion-text-wrap">
-          Bolo de maça de liquidificador
+          {{receita.nome}}
         </div>
       </ion-title>
       <div class="details" style="color: #fff;">
-        <p><ion-icon name="hourglass-outline"></ion-icon>45 min</p>
-        <span>Dificultdade:</span><ion-text style="font-weight: bold;" [ngStyle]="{'color':(selecionaCorDificuldade('Fácil'))}">Fácil</ion-text>
-        <p><ion-icon name="restaurant-outline"></ion-icon> 10 porções</p>
+        <p><ion-icon name="hourglass-outline"></ion-icon>{{receita.minutos}} min</p>
+        <span>Dificultdade:</span><ion-text style="font-weight: bold;" [ngStyle]="{'color':(selecionaCorDificuldade(receita.dificuldade))}">{{receita.dificuldade}}</ion-text>
+        <p><ion-icon name="restaurant-outline"></ion-icon> {{receita.porcoes}} porções</p>
       </div>
     </div>
   </ion-toolbar>
@@ -46,21 +46,14 @@
   <ion-card>
     <ion-card-subtitle class="ion-text-center">Ingredientes</ion-card-subtitle>
     <ul>
-      <li >
-        200 gramas de farinha de trigo
-      </li>
-      <li >
-        1 xícara de leite
+      <li *ngFor="let ingrediente of receita.ingredientes">
+        {{ingrediente.quantidade}} {{ingrediente.unidade}} de {{ingrediente.nome}}
       </li>
     </ul>
-
     <ion-card-subtitle class="ion-text-center">Modo de preparo</ion-card-subtitle>
     <ol>
-      <li>
-        Coloque a farinha em uma bacia;
-      </li>
-      <li>
-        Misture o leite;
+      <li *ngFor="let preparo of receita.preparo">
+        {{preparo}}
       </li>
     </ol>
   </ion-card>

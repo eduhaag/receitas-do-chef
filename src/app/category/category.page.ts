@@ -33,7 +33,9 @@ export class CategoryPage implements OnInit {
   }
 
   async loadReceitas(){
-    this.receitas =  await this.db.getReceitasByCategoriaID(this.categoria.id);
+    const {receitas, qtdReceitas} = await this.db.getReceitasByCategoriaID(this.categoria.id);
+    this.receitas=receitas;
+    this.categoria.qtdReceitas=qtdReceitas;
   }
 
   voltar(){
@@ -41,11 +43,21 @@ export class CategoryPage implements OnInit {
   }
 
   adicionarReceita(){
-    this.router.navigate(['edit-recipe']);
+    const dados = {
+      state: {
+        categoriaID: this.categoria.id
+      }
+    };
+    this.router.navigate(['edit-recipe'], dados);
   }
 
-  selecionaReceita(){
-    this.router.navigate(['recipe']);
+  selecionaReceita(receita){
+    const dados = {
+      state:{
+        receita
+      }
+    };
+    this.router.navigate(['recipe'], dados);
   }
 
   selecionaCorDificuldade(dificuldade: string){

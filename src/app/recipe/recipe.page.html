@@ -45,14 +45,14 @@
 <ion-content color="secondary" id="main-content">
   <ion-card>
     <ion-card-subtitle class="ion-text-center">Ingredientes</ion-card-subtitle>
-    <ul>
-      <li *ngFor="let ingrediente of receita.ingredientes">
+    <ul style="width: 95%;">
+      <li *ngFor="let ingrediente of receita.ingredientes" style="text-align: justify;">
         {{ingrediente.quantidade}} {{ingrediente.unidade}} de {{ingrediente.nome}}
       </li>
     </ul>
     <ion-card-subtitle class="ion-text-center">Modo de preparo</ion-card-subtitle>
-    <ol>
-      <li *ngFor="let preparo of receita.preparo">
+    <ol style="width: 95%;">
+      <li *ngFor="let preparo of receita.preparo" style="text-align: justify;">
         {{preparo}}
       </li>
     </ol>

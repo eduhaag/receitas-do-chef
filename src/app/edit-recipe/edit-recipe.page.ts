@@ -1,8 +1,12 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AlertController, ToastController } from '@ionic/angular';
+import { AlertController, ToastController, ActionSheetController, Platform } from '@ionic/angular';
 import { DatabaseService, Ingrediente, Receita } from '../services/database.service';
+import {Camera,CameraOptions, PictureSourceType} from '@ionic-native/camera/ngx';
+import { FilePath } from '@ionic-native/file-path/ngx';
+import { File} from '@ionic-native/file/ngx';
+import { WebView } from '@ionic-native/ionic-webview/ngx';
 
 @Component({
   selector: 'app-edit-recipe',
@@ -10,6 +14,7 @@ import { DatabaseService, Ingrediente, Receita } from '../services/database.serv
   styleUrls: ['./edit-recipe.page.scss'],
 })
 export class EditRecipePage implements OnInit {
+  origem='';
   ingrediente: Ingrediente={
     nome:undefined,
     quantidade:undefined,
@@ -27,6 +32,7 @@ export class EditRecipePage implements OnInit {
     dificuldade:undefined,
     categoriaID: undefined
   };
+  fotoAtual: string=undefined;
 
   constructor(
     private database: DatabaseService,
@@ -34,7 +40,13 @@ export class EditRecipePage implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private toastCtrl: ToastController,
-    private alertCtrl: AlertController
+    private alertCtrl: AlertController,
+    private camera: Camera,
+    private file: File,
+    private filePath: FilePath,
+    private actionSheetController: ActionSheetController,
+    private platform: Platform,
+    private webview: WebView
   ) { }
 
   ngOnInit() {
@@ -44,10 +56,12 @@ export class EditRecipePage implements OnInit {
       if(state){
         if(state.receita){
           this.receita=state.receita;
+          this.fotoAtual=this.receita.img;
         }
         if(state.categoriaID){
           this.receita.categoriaID=state.categoriaID;
         }
+        this.origem=state.origem;
       }
     });
   }
@@ -108,20 +122,102 @@ export class EditRecipePage implements OnInit {
       }
     }
 
+    this.receita.img=this.fotoAtual;
 
     {this.database.salvarReceita(this.receita).then(_=>{
       this.exibeToast();
-      this.location.back();
+
+      const dados = {
+        state:{
+          receita: this.receita,
+          categoria: this.receita.categoriaID
+        }
+      };
+
+      this.router.navigate([this.origem], dados);
+
     }).catch(e=>{
       this.exibeAlert(e.message);
     });}
-
   }
 
-  adicionarFoto(){}
+  async adicionarFoto(){
+    const actionSheet = await this.actionSheetController.create({
+      header:'Selecione uma imagem:',
+      buttons:[
+        {
+          text:'Galeria',
+          handler:()=>{
+            this.obtemImagem(this.camera.PictureSourceType.PHOTOLIBRARY);
+          }
+        },
+        {
+          text:'Câmera',
+          handler:()=>{
+            this.obtemImagem(this.camera.PictureSourceType.CAMERA);
+          }
+        },
+        {
+          text: 'Cancelar',
+          role:'cancel'
+        }
+      ]
+    });
+    actionSheet.present();
+  }
+
+  obtemImagem(sourceType: PictureSourceType){
+    const options: CameraOptions={
+      quality:100,
+      sourceType,
+      saveToPhotoAlbum:false,
+      correctOrientation:true,
+      encodingType:this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE,
+    };
+
+    this.camera.getPicture(options).then(pathImage=>{
+      if (this.platform.is('android') && sourceType === this.camera.PictureSourceType.PHOTOLIBRARY) {
+        this.filePath.resolveNativePath(pathImage).then(filePath=>{
+          const correctPath = filePath.substr(0,filePath.lastIndexOf('/')+1);
+          const currentName = pathImage.substring(pathImage.lastIndexOf('/') + 1, pathImage.lastIndexOf('?'));
+
+          this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
+        });
+      }
+      else{
+        const currentName = pathImage.substr(pathImage.lastIndexOf('/') + 1);
+        const correctPath = pathImage.substr(0, pathImage.lastIndexOf('/') + 1);
+
+        this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
+      };
+    });
+  }
+
+  createFileName() {
+    const d = new Date();
+    const n = d.getTime();
+    const newFileName = n + '.jpg';
+    return newFileName;
+  }
+
+  async copyFileToLocalDir(namePath, currentName, newFileName) {
+    const imgData= await this.file.copyFile(namePath, currentName, this.file.dataDirectory, newFileName);
+
+    this.fotoAtual=this.pathImage(imgData.nativeURL);
+  }
 
   voltar(){
     this.location.back();
+  }
+
+  pathImage(img){
+    if (img === null) {
+      return '';
+    } else {
+      const converted = this.webview.convertFileSrc(img);
+      return converted;
+    }
   }
 
 }

@@ -1,13 +1,14 @@
 <ion-content color="secondary">
-  <div class="header" style="background-image:url({{receita.img}})">
+  <div class="header" style="background-image:url({{fotoAtual}})">
     <ion-icon color="light" size="large" name="chevron-back-outline" (click)="voltar()"></ion-icon>
     <div class="foto">
       <div class="add-foto">
-        <ion-icon name="camera-outline" size="large" ></ion-icon>
+        <ion-fab-button color="primary" (click)="adicionarFoto()">
+          <ion-icon name="camera-outline" size="large"></ion-icon>
+        </ion-fab-button>
       </div>
     </div>
   </div>
-
   <ion-card>
     <ion-card-title class="ion-text-center">Informações</ion-card-title>
     <ion-item lines="none">

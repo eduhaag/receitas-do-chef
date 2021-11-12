@@ -25,7 +25,8 @@
 }
 
 .imagem{
-  width: 41%;
+  min-width: 41%;
+  max-width: 41%;
   height: 100%;
   object-fit: cover;
 }

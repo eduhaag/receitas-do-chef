@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { ComponentFactoryResolver, Injectable } from '@angular/core';
 import {SQLiteObject, SQLite} from '@ionic-native/sqlite/ngx';
 import {BehaviorSubject} from 'rxjs';
 import {Platform} from '@ionic/angular';
@@ -106,6 +106,24 @@ export class DatabaseService {
     this.categorias.next(categorias);
   };
 
+  async getCategoriaByID(id: number): Promise<Categoria>{
+    const data = await this.database.executeSql(
+      // eslint-disable-next-line max-len
+      `SELECT categorias.*, (SELECT count(receitas.categoriaId) FROM receitas WHERE receitas.categoriaId = categorias.id) AS qtd_receitas FROM categorias WHERE id=${id}`,
+      []
+    );
+
+    const categoria: Categoria={
+      id: data.rows.item(0).id,
+      nome: data.rows.item(0).nome,
+      img: data.rows.item(0).img,
+      qtdReceitas: data.rows.item(0).qtd_receitas
+    };
+
+    return categoria;
+
+  }
+
   async getReceitasByCategoriaID(id: number): Promise<ReceitaPageDTO>{
     const receitas: Receita[]=[];
 
@@ -123,7 +141,8 @@ export class DatabaseService {
             dificuldade: data.rows.item(i).dificuldade,
             porcoes:data.rows.item(i).porcoes,
             ingredientes:JSON.parse(data.rows.item(i).ingredientes),
-            preparo: JSON.parse(data.rows.item(i).preparo)
+            preparo: JSON.parse(data.rows.item(i).preparo),
+            categoriaID:data.rows.item(i).categoriaId
           });
         }
       }
@@ -144,10 +163,10 @@ export class DatabaseService {
     let query;
     if(id){
       query=
-      `UPDATE receitas SET nome=?, dificuldade=?, img=?, minutos=?, preparo=?, porcoes=?, categoriaID=?, ingredientes=? WHERE id=${id}`;
+      `UPDATE receitas SET nome=?, dificuldade=?, img=?, minutos=?, preparo=?, porcoes=?, categoriaId=?, ingredientes=? WHERE id=${id}`;
     }else{
       query=
-      'INSERT INTO receitas (nome, dificuldade, img, minutos, preparo, porcoes, categoriaID, ingredientes) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
+      'INSERT INTO receitas (nome, dificuldade, img, minutos, preparo, porcoes, categoriaId, ingredientes) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
     }
 
     return this.database.executeSql(query,dados).then(_=>{this.loadCategorias();});

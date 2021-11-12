@@ -12,6 +12,10 @@ import { SQLitePorter } from '@ionic-native/sqlite-porter/ngx';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { ToastController, AlertController } from '@ionic/angular';
+import {Camera} from '@ionic-native/camera/ngx';
+import { FilePath } from '@ionic-native/file-path/ngx';
+import { File } from '@ionic-native/file/ngx';
+import { WebView } from '@ionic-native/ionic-webview/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -24,7 +28,11 @@ import { ToastController, AlertController } from '@ionic/angular';
     SQLite,
     SQLitePorter,
     ToastController,
-    AlertController
+    AlertController,
+    Camera,
+    File,
+    FilePath,
+    WebView
   ],
   bootstrap: [AppComponent],
 })

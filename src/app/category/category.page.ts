@@ -13,7 +13,12 @@ import {Categoria, Receita, DatabaseService} from '../services/database.service'
 
 export class CategoryPage implements OnInit {
   receitas: Receita []=[];
-  categoria: Categoria;
+  categoria: Categoria={
+    id:undefined,
+    img:undefined,
+    nome:undefined,
+    qtdReceitas:0
+  };
 
   constructor(
     private location: Location,
@@ -23,29 +28,30 @@ export class CategoryPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.route.queryParamMap.subscribe(params=>{
+    this.route.queryParamMap.subscribe(async params=>{
       const getNav= this.router.getCurrentNavigation();
       if(getNav.extras.state.categoria){
-        this.categoria=getNav.extras.state.categoria;
+        const categoria=getNav.extras.state.categoria;
+        this.categoria= await this.db.getCategoriaByID(categoria);
         this.loadReceitas();
       }
     });
   }
 
   async loadReceitas(){
-    const {receitas, qtdReceitas} = await this.db.getReceitasByCategoriaID(this.categoria.id);
+    const {receitas} = await this.db.getReceitasByCategoriaID(this.categoria.id);
     this.receitas=receitas;
-    this.categoria.qtdReceitas=qtdReceitas;
   }
 
   voltar(){
-    this.location.back();
+    this.router.navigate(['home']);
   }
 
   adicionarReceita(){
     const dados = {
       state: {
-        categoriaID: this.categoria.id
+        categoriaID: this.categoria.id,
+        origem: 'category'
       }
     };
     this.router.navigate(['edit-recipe'], dados);

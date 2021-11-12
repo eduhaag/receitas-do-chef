@@ -23,7 +23,6 @@ export class RecipePage implements OnInit {
       if(getNav.extras.state.receita){
         this.receita=getNav.extras.state.receita;
       }
-      console.log(this.receita.ingredientes);
     });
   }
 
@@ -50,14 +49,20 @@ export class RecipePage implements OnInit {
   }
 
   voltar(){
-    this.location.back();
+    this.router.navigate(['category']);
   }
 
   compartilhar(){
   }
 
   editar(){
-    this.router.navigate(['edit-recipe']);
+    const dados = {
+      state:{
+        receita: this.receita,
+        origem: 'recipe'
+      }
+    };
+    this.router.navigate(['edit-recipe'], dados);
   }
 
   excluir(){

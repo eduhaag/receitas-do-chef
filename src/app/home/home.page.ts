@@ -31,7 +31,7 @@ export class HomePage {
   acessarCategoria(categoria: Categoria){
     const dadosCategoria = {
       state:{
-        categoria
+        categoria:categoria.id
       }
     };
     this.router.navigate([`category`],dadosCategoria);

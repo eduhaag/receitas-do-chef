@@ -5,7 +5,7 @@
     <ion-icon color="light" size="large" name="chevron-back-outline" (click)="voltar()"></ion-icon>
     <ion-title class="titulo ion-text-center" style="font-size: 2rem;"color="light">{{categoria.nome}}</ion-title>
     <div class="ion-text-end">
-      <ion-text class="subtitulo" color="light">{{qtdeReceitas(categoria.qtdReceitas)}}</ion-text>
+      <ion-text class="subtitulo" color="light">{{qtdeReceitas(receitas.length)}}</ion-text>
     </div>
   </div>
 </ion-header>

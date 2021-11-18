@@ -32,7 +32,7 @@ import { WebView } from '@ionic-native/ionic-webview/ngx';
     Camera,
     File,
     FilePath,
-    WebView
+    WebView,
   ],
   bootstrap: [AppComponent],
 })

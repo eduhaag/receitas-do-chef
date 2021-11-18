@@ -1,4 +1,4 @@
-import { ComponentFactoryResolver, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import {SQLiteObject, SQLite} from '@ionic-native/sqlite/ngx';
 import {BehaviorSubject} from 'rxjs';
 import {Platform} from '@ionic/angular';
@@ -27,11 +27,6 @@ export interface Categoria{
   id: number;
   nome: string;
   img: string;
-  qtdReceitas: number;
-}
-
-interface ReceitaPageDTO{
-  receitas: Receita[];
   qtdReceitas: number;
 }
 
@@ -124,7 +119,7 @@ export class DatabaseService {
 
   }
 
-  async getReceitasByCategoriaID(id: number): Promise<ReceitaPageDTO>{
+  async getReceitasByCategoriaID(id: number): Promise<Receita[]>{
     const receitas: Receita[]=[];
 
     const data = await this.database.executeSql(
@@ -147,10 +142,7 @@ export class DatabaseService {
         }
       }
 
-    return {
-      qtdReceitas:receitas.length,
-      receitas
-    };
+    return receitas;
   }
 
   salvarReceita({id, nome,dificuldade,img,minutos,preparo,porcoes,categoriaID,ingredientes}: Receita){
@@ -159,8 +151,7 @@ export class DatabaseService {
       minutos, JSON.stringify(preparo),
       porcoes, categoriaID, JSON.stringify(ingredientes)];
 
-    console.log({ingredientes, preparo});
-    let query;
+    let query: string;
     if(id){
       query=
       `UPDATE receitas SET nome=?, dificuldade=?, img=?, minutos=?, preparo=?, porcoes=?, categoriaId=?, ingredientes=? WHERE id=${id}`;
@@ -170,5 +161,11 @@ export class DatabaseService {
     }
 
     return this.database.executeSql(query,dados).then(_=>{this.loadCategorias();});
+  }
+
+   async excluiReceita(id){
+    return this.database.executeSql( `DELETE FROM receitas WHERE id=${id}`,[]).then(_=>{
+      this.loadCategorias();
+    });
   }
 }

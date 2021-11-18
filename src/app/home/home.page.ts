@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { NavigationExtras, Router } from '@angular/router';
 
 import {DatabaseService, Categoria} from '../services/database.service';
 
@@ -29,12 +28,13 @@ export class HomePage {
   }
 
   acessarCategoria(categoria: Categoria){
-    const dadosCategoria = {
-      state:{
-        categoria:categoria.id
+    const dados: NavigationExtras = {
+      queryParams:{
+        categoriaID: categoria.id
       }
     };
-    this.router.navigate([`category`],dadosCategoria);
+
+    this.router.navigate(['category'], dados);
   }
 
   qtdeReceitas(qtde){

@@ -1,7 +1,7 @@
-import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Ingrediente, Receita } from '../services/database.service';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
+import { AlertController, ToastController } from '@ionic/angular';
+import { DatabaseService, Receita } from '../services/database.service';
 
 @Component({
   selector: 'app-recipe',
@@ -12,13 +12,15 @@ export class RecipePage implements OnInit {
   receita: Receita;
 
   constructor(
-    private location: Location,
     private router: Router,
     private route: ActivatedRoute,
+    private alertCtrl: AlertController,
+    private toastCtrl: ToastController,
+    private db: DatabaseService
   ) { }
 
   ngOnInit() {
-    this.route.queryParamMap.subscribe(params=>{
+    this.route.queryParamMap.subscribe(_=>{
       const getNav= this.router.getCurrentNavigation();
       if(getNav.extras.state.receita){
         this.receita=getNav.extras.state.receita;
@@ -27,7 +29,6 @@ export class RecipePage implements OnInit {
   }
 
   selecionaCorDificuldade(dificuldade: string){
-    let cor;
 
     switch(dificuldade){
       case 'Fácil':
@@ -37,6 +38,35 @@ export class RecipePage implements OnInit {
       case 'Difícil':
         return '#EE5248';
     }
+  }
+
+  async exibeToastDelete(){
+    const toast = await this.toastCtrl.create({
+      message: 'Receita excluida com sucesso.',
+      duration:3000
+    });
+
+    await toast.present();
+  }
+
+  async exibeAlertDelete(){
+    const alert = await this.alertCtrl.create({
+      message:'Tem certeza que deseja excluir esta receita?',
+      buttons:[
+        {
+          text:'sim',
+          handler:()=>{
+            this.excluir();
+          }
+        },
+          {
+            text:'cancelar',
+            role: 'cancel'
+          }
+      ]
+    });
+
+    await alert.present();
   }
 
   handleImg(){
@@ -49,7 +79,13 @@ export class RecipePage implements OnInit {
   }
 
   voltar(){
-    this.router.navigate(['category']);
+    const dados: NavigationExtras = {
+      queryParams:{
+        categoriaID: this.receita.categoriaID
+      }
+    };
+
+    this.router.navigate(['category'], dados);
   }
 
   compartilhar(){
@@ -65,6 +101,18 @@ export class RecipePage implements OnInit {
     this.router.navigate(['edit-recipe'], dados);
   }
 
-  excluir(){
+  async excluir(){
+    {this.db.excluiReceita(this.receita.id).then(_=>{
+
+      const dados: NavigationExtras = {
+        queryParams:{
+          categoriaID: this.receita.categoriaID
+        }
+      };
+
+      this.router.navigate(['category'], dados);
+      this.exibeToastDelete();
+    });
+    }
   }
 }

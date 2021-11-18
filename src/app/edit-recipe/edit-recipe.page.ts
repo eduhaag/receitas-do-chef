@@ -1,6 +1,6 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { AlertController, ToastController, ActionSheetController, Platform } from '@ionic/angular';
 import { DatabaseService, Ingrediente, Receita } from '../services/database.service';
 import {Camera,CameraOptions, PictureSourceType} from '@ionic-native/camera/ngx';
@@ -50,7 +50,7 @@ export class EditRecipePage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.route.queryParams.subscribe(params=>{
+    this.route.queryParams.subscribe(_=>{
       const getNav = this.router.getCurrentNavigation();
       const {state} = getNav.extras;
       if(state){
@@ -127,11 +127,9 @@ export class EditRecipePage implements OnInit {
     {this.database.salvarReceita(this.receita).then(_=>{
       this.exibeToast();
 
-      const dados = {
-        state:{
-          receita: this.receita,
-          categoria: this.receita.categoriaID
-        }
+      const dados: NavigationExtras = {
+        queryParams:{categoriaID: this.receita.categoriaID},
+        state:{receita: this.receita}
       };
 
       this.router.navigate([this.origem], dados);

@@ -174,7 +174,7 @@ export class EditRecipePage implements OnInit {
       mediaType: this.camera.MediaType.PICTURE,
     };
 
-    this.camera.getPicture(options).then(pathImage=>{
+    const foto = this.camera.getPicture(options).then(pathImage=>{
       if (this.platform.is('android') && sourceType === this.camera.PictureSourceType.PHOTOLIBRARY) {
         this.filePath.resolveNativePath(pathImage).then(filePath=>{
           const correctPath = filePath.substr(0,filePath.lastIndexOf('/')+1);
@@ -190,6 +190,7 @@ export class EditRecipePage implements OnInit {
         this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
       };
     });
+
   }
 
   createFileName() {

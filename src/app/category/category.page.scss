@@ -1,9 +1,13 @@
+ion-header{
+  min-height: 130px;
+}
+
 .fundo-header{
   display: flex;
   flex-direction: column;
   background-size:cover;
   background-position: center center;
-  height:8rem;
+  height:100%
 }
 
 .subtitulo{

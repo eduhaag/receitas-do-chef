@@ -3,7 +3,7 @@
     <ion-list>
       <ion-item (click)="compartilhar()">
         <ion-icon name="share-social-outline" slot="end"></ion-icon>
-        <ion-label>Compartilhar</ion-label>
+        <ion-label>Compartilhar no Whatsapp</ion-label>
       </ion-item>
       <ion-item (click)="editar()">
         <ion-icon name="pencil-outline" slot="end"></ion-icon>
@@ -35,7 +35,7 @@
       </ion-title>
       <div class="details" style="color: #fff;">
         <p><ion-icon name="hourglass-outline"></ion-icon>{{receita.minutos}} min</p>
-        <span>Dificultdade:</span><ion-text style="font-weight: bold;" [ngStyle]="{'color':(selecionaCorDificuldade(receita.dificuldade))}">{{receita.dificuldade}}</ion-text>
+        <span>Dificuldade:</span><ion-text style="font-weight: bold;" [ngStyle]="{'color':(selecionaCorDificuldade(receita.dificuldade))}">{{receita.dificuldade}}</ion-text>
         <p><ion-icon name="restaurant-outline"></ion-icon> {{receita.porcoes}} porções</p>
       </div>
     </div>

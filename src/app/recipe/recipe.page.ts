@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { AlertController, ToastController } from '@ionic/angular';
 import { DatabaseService, Receita } from '../services/database.service';
+import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 
 @Component({
   selector: 'app-recipe',
@@ -16,7 +17,8 @@ export class RecipePage implements OnInit {
     private route: ActivatedRoute,
     private alertCtrl: AlertController,
     private toastCtrl: ToastController,
-    private db: DatabaseService
+    private db: DatabaseService,
+    private socialShare: SocialSharing
   ) { }
 
   ngOnInit() {
@@ -89,6 +91,24 @@ export class RecipePage implements OnInit {
   }
 
   compartilhar(){
+    const {nome, minutos,porcoes} = this.receita;
+
+    let receita =`*${nome}*\n`;
+    receita=receita + `${minutos} minutos | ${porcoes} porções\n\n`;
+
+    receita=receita+ '*Ingredientes*\n';
+    for(const ingrediente of this.receita.ingredientes){
+      const {quantidade,unidade} = ingrediente;
+      receita= receita + `• ${quantidade} ${unidade} de ${ingrediente.nome}\n`;
+    }
+
+    receita = receita + '\n *Preparo* \n';
+    for (let i=0; i<this.receita.preparo.length; i++){
+      receita= receita + `${i+1} - ${this.receita.preparo[i]};\n`;
+
+    }
+
+    this.socialShare.shareViaWhatsApp(receita);
   }
 
   editar(){

@@ -16,6 +16,7 @@ import {Camera} from '@ionic-native/camera/ngx';
 import { FilePath } from '@ionic-native/file-path/ngx';
 import { File } from '@ionic-native/file/ngx';
 import { WebView } from '@ionic-native/ionic-webview/ngx';
+import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -33,6 +34,7 @@ import { WebView } from '@ionic-native/ionic-webview/ngx';
     File,
     FilePath,
     WebView,
+    SocialSharing
   ],
   bootstrap: [AppComponent],
 })

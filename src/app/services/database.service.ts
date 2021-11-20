@@ -59,17 +59,27 @@ export class DatabaseService {
   };
 
   inicializaBanco(){
-    this.http.get('assets/banco.sql', {responseType: 'text'})
-    .subscribe(sql=>{
-      this.sqlitePorter.importSqlToDb(this.database, sql)
-      .then(_=>{
+    this.database.executeSql('SELECT name FROM sqlite_master WHERE type="table" AND name= "categorias"',[]).then(result=>{
+      if(result.rows.length===0){
+          this.http.get('assets/banco.sql', {responseType: 'text'}).subscribe(sql=>{
+            this.sqlitePorter.importSqlToDb(this.database, sql)
+          .then(_=>{
+            this.loadCategorias();
+            this.dbReady.next(true);
+        })
+          .catch(e=>{
+            console.error(e);
+          });
+        });
+      }
+      else{
         this.loadCategorias();
         this.dbReady.next(true);
-      })
-      .catch(e=>{
-        console.error(e);
-      });
+      }
     });
+
+
+
   };
 
   //observables
